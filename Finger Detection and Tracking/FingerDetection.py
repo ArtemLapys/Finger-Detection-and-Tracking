@@ -3,7 +3,7 @@ import numpy as np
 
 hand_hist = None
 traverse_point = []
-total_rectangle = 9
+total_rectangle = 9 
 hand_rect_one_x = None
 hand_rect_one_y = None
 
@@ -20,7 +20,7 @@ def rescale_frame(frame, wpercent=130, hpercent=130):
 def contours(hist_mask_image):
     gray_hist_mask_image = cv2.cvtColor(hist_mask_image, cv2.COLOR_BGR2GRAY)
     ret, thresh = cv2.threshold(gray_hist_mask_image, 0, 255, 0)
-    _, cont, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    cont, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return cont
 
 def draw_rect(frame):
@@ -122,7 +122,7 @@ def manage_image_opr(frame, hand_hist):
     hist_mask_image = cv2.dilate(hist_mask_image, None, iterations=2)
 
     contour_list = contours(hist_mask_image)
-    max_cont = max(contour_list, key=cv2.contourArea)
+    max_cont = max(contour_list, key=cv2.contourArea, default=0)
 
     cnt_centroid = centroid(max_cont)
     cv2.circle(frame, cnt_centroid, 5, [255, 0, 255], -1)
